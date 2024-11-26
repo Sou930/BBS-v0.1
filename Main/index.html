@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>掲示板</title>
+    <!-- Flask url_for関数 static:静的ファイル格納先 -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div>
+        <h1>掲示板</h1>
+        <!-- フォーム：投稿入力欄と投稿ボタン -->
+        <form method="post" action="/">
+            <textarea id="postInput" name="post_content" placeholder="ここに投稿内容を入力"></textarea>
+            <button id="postButton" type="submit">投稿する</button>
+        </form>
+
+        <!-- 投稿リスト -->
+        <ul id="posts">
+            <!-- 投稿リストの各要素ループ -->
+            {% for post in posts %}
+            <!-- 投稿 -->
+            <li class="post">
+                {{ post['content'] }}<br>
+                <!-- 投稿日時 -->
+                <small>{{ post['timestamp'] }}</small>
+
+                <!-- フォーム：投稿削除 -->
+                <div class="button-side-container">
+                    <form method="post" action="/">
+                        <!-- 削除ボタン　削除する投稿のインデックスがvalueとして送信される -->
+                        <button type="submit" name="delete_post" value="{{ loop.index0 }}" class="deleteButton">削除</button>
+                    </form>
+                </div>
+            </li>            
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>
